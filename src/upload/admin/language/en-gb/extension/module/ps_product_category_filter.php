@@ -5,6 +5,7 @@ $_['heading_title']        = 'Playful Sparkle - Product to Category filter';
 // Text
 $_['text_extension']       = 'Extensions';
 $_['text_success']         = 'Success: You have modified Product to Category filter module!';
+$_['text_filter_success']  = 'Success: Unused filters were removed successfully!';
 $_['text_edit']            = 'Edit Product to Category filter Module';
 
 // Entry

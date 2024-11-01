@@ -71,38 +71,42 @@ class ControllerExtensionModulePsProductCategoryFilter extends Controller
 
     public function install()
     {
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` ADD UNIQUE `category_filter_unique` (`category_id`, `filter_id`)");
+        $this->load->model('extension/module/ps_product_category_filter');
+
+        $this->model_extension_module_ps_product_category_filter->install();
     }
 
     public function uninstall()
     {
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` DROP INDEX `category_filter_unique`");
+        $this->load->model('extension/module/ps_product_category_filter');
+
+        $this->model_extension_module_ps_product_category_filter->uninstall();
     }
 
-    public function cleanupfilter()
-	{
+    public function removeunused()
+    {
         $this->load->language('extension/module/ps_product_category_filter');
 
-		$this->load->model('extension/module/ps_product_category_filter');
+        $this->load->model('extension/module/ps_product_category_filter');
 
-		$this->model_extension_module_ps_product_category_filter->cleanupCategoryFilters($this->request->get['category_id']);
+        $this->model_extension_module_ps_product_category_filter->removeUnusedFilters($this->request->get['category_id']);
 
-		$this->session->data['success'] = $this->language->get('text_success');
+        $this->session->data['success'] = $this->language->get('text_filter_success');
 
-		$url = '';
+        $url = '';
 
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
+        if (isset($this->request->get['sort'])) {
+            $url .= '&sort=' . $this->request->get['sort'];
+        }
 
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
+        if (isset($this->request->get['order'])) {
+            $url .= '&order=' . $this->request->get['order'];
+        }
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
 
-		$this->response->redirect($this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . $url, true));
-	}
+        $this->response->redirect($this->url->link('catalog/category', 'user_token=' . $this->session->data['user_token'] . $url, true));
+    }
 }
