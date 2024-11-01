@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of "Playful Sparkle - Product to Category filter" project and subject to the terms
+and conditions defined in file "LICENSE", which is part of this source
+code package and also available on the project page: https://github.com/playfulsparkle/oc3_product_category_filter.git
+-->
+<modification>
+    <name>Playful Sparkle - Product to Category filter</name>
+    <code>ps_product_category_filter</code>
+    <version>1.0.0</version>
+    <author>Playful Sparkle</author>
+    <link>https://github.com/playfulsparkle/oc3_product_category_filter.git</link>
+    <file path="admin/model/catalog/product.php">
+        <operation>
+            <search position="before"><![CDATA[if (isset($data['image'])) {]]></search>
+            <add><![CDATA[if ($this->config->get('module_ps_product_category_filter_status') && isset($data['product_category'], $data['product_filter'])) {
+            $filters = array();
+
+            foreach ($data['product_category'] as $category_id) {
+                foreach ($data['product_filter'] as $filter_id) {
+                    $filters[] = "(" . (int)$category_id . ", " . (int)$filter_id . ")";
+                }
+            }
+
+            if ($filters) {
+                $query = "INSERT IGNORE INTO `" . DB_PREFIX . "category_filter` (`category_id`, `filter_id`) VALUES " . implode(',', $filters);
+                $this->db->query($query);
+            }
+        }
+
+		if (isset($data['image'])) {]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/category.php">
+        <operation>
+            <search position="after"><![CDATA[$data['cancel']]]></search>
+            <add><![CDATA[
+            $this->load->language('extension/module/ps_product_category_filter', 'ps_product_category_filter');
+
+            $ps_language = $this->language->get('ps_product_category_filter');
+
+            $data['button_remove_filter'] = $ps_language->get('button_remove_filter');
+
+            $data['remove_filter'] = $this->url->link('extension/module/ps_product_category_filter/cleanupfilter', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $this->request->get['category_id'], true);
+
+            $data['cancel']
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/view/template/catalog/category_form.twig">
+        <operation>
+            <search position="before"><![CDATA[<input type="text" name="filter"]]></search>
+            <add><![CDATA[<div class="input-group"><input type="text" name="filter"]]></add>
+        </operation>
+    </file>
+    <file path="admin/view/template/catalog/category_form.twig">
+        <operation>
+            <search position="after"><![CDATA[id="input-filter" class="form-control" />]]></search>
+            <add><![CDATA[id="input-filter" class="form-control" />
+            <span class="input-group-btn">
+                <a href="{{ remove_filter }}" form="form-category" data-toggle="tooltip" title="{{ button_remove_filter }}" class="btn btn-primary"><i class="fa fa-trash-o"></i> {{ button_remove_filter }}</a>
+            </span>
+            </div>]]></add>
+        </operation>
+    </file>
+</modification>
