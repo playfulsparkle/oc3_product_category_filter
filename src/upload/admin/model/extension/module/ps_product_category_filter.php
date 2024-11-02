@@ -3,12 +3,20 @@ class ModelExtensionModulePsProductCategoryFilter extends Model
 {
     public function install()
     {
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` ADD UNIQUE `category_filter_unique` (`category_id`, `filter_id`)");
+        $query = $this->db->query("SHOW INDEX FROM `" . DB_PREFIX . "category_filter` WHERE `Key_name` = 'category_filter_unique'");
+
+        if (!$query->num_rows) {
+            $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` ADD UNIQUE `category_filter_unique` (`category_id`, `filter_id`)");
+        }
     }
 
     public function uninstall()
     {
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` DROP INDEX `category_filter_unique`");
+        $query = $this->db->query("SHOW INDEX FROM `" . DB_PREFIX . "category_filter` WHERE `Key_name` = 'category_filter_unique'");
+
+        if ($query->num_rows) {
+            $this->db->query("ALTER TABLE `" . DB_PREFIX . "category_filter` DROP INDEX `category_filter_unique`");
+        }
     }
 
     public function removeUnusedFilters($category_id)

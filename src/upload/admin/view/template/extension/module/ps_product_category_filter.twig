@@ -25,20 +25,47 @@
       </div>
       <div class="panel-body">
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
-            <div class="col-sm-10">
-              <select name="module_ps_product_category_filter_status" id="input-status" class="form-control">
-                {% if module_ps_product_category_filter_status %}
-                <option value="1" selected="selected">{{ text_enabled }}</option>
-                <option value="0">{{ text_disabled }}</option>
-                {% else %}
-                <option value="1">{{ text_enabled }}</option>
-                <option value="0" selected="selected">{{ text_disabled }}</option>
-                {% endif %}
-              </select>
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+            <li><a href="#tab-support" data-toggle="tab">{{ tab_help_and_support }}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+								<div class="col-sm-10">
+									<select name="module_ps_product_category_filter_status" id="input-status" class="form-control">
+										{% if module_ps_product_category_filter_status %}
+										<option value="1" selected="selected">{{ text_enabled }}</option>
+										<option value="0">{{ text_disabled }}</option>
+										{% else %}
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+
+            </div>
+						<div class="tab-pane" id="tab-support">
+
+							<h3>{{ heading_getting_started }}</h3>
+							{{ text_getting_started }}
+							<hr />
+							<h3>{{ heading_setup }}</h3>
+							{{ text_setup }}
+							<hr />
+							<h3>{{ heading_troubleshot }}</h3>
+							{{ text_troubleshot }}
+							<hr />
+							<h3>{{ heading_contact }}</h3>
+							{{ text_contact }}
+
             </div>
           </div>
+
         </form>
       </div>
     </div>

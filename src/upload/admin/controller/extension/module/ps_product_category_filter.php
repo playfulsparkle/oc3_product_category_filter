@@ -1,6 +1,16 @@
 <?php
 class ControllerExtensionModulePsProductCategoryFilter extends Controller
 {
+    /**
+     * @var string The support email address.
+     */
+    const EXTENSION_EMAIL = 'support@playfulsparkle.com';
+
+    /**
+     * @var string The documentation URL for the extension.
+     */
+    const EXTENSION_DOC = 'https://github.com/playfulsparkle/oc3_product_category_filter.git';
+
     private $error = array();
 
     public function index()
@@ -51,6 +61,8 @@ class ControllerExtensionModulePsProductCategoryFilter extends Controller
         } else {
             $data['module_ps_product_category_filter_status'] = $this->config->get('module_ps_product_category_filter_status');
         }
+
+        $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');

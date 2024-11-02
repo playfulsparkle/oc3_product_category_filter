@@ -42,7 +42,26 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $data['button_remove_filter'] = $ps_language->get('button_remove_filter');
 
-                $data['remove_filter'] = $this->url->link('extension/module/ps_product_category_filter/removeunused', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $this->request->get['category_id'], true);
+
+                $url = '';
+
+                if (isset($this->request->get['sort'])) {
+                    $url .= '&sort=' . $this->request->get['sort'];
+                }
+
+                if (isset($this->request->get['order'])) {
+                    $url .= '&order=' . $this->request->get['order'];
+                }
+
+                if (isset($this->request->get['page'])) {
+                    $url .= '&page=' . $this->request->get['page'];
+                }
+
+                if (isset($this->request->get['page'])) {
+                    $url .= '&category_id=' . $this->request->get['category_id'];
+                }
+
+                $data['remove_filter'] = $this->url->link('extension/module/ps_product_category_filter/removeunused', 'user_token=' . $this->session->data['user_token'] . $url, true);
             } else {
                 $data['remove_filter'] = '';
             }
