@@ -35,7 +35,7 @@ Demo backend: https://opencart3.playfulsparkle.com/admin/
 
 Installation Instructions
 
-1. Download the latest version from this repository.
+1. Download the latest version from the OpenCart Marketplace.
 2. Log in to your OpenCart admin panel.
 3. Navigate to Extensions > Installer.
 4. Click the Upload button and upload the
@@ -45,6 +45,9 @@ Installation Instructions
 6. Locate the extension in the Modules list and click the Install button.
 7. Click the Edit button, configure the extension parameters, and click the Save
    button to save your settings.
+8. Navigate to Extensions > Modifications, select all your modifications and
+   click the Refresh button to update the modification cache and apply
+   the changes.
 
 Support & Inquiries
 
