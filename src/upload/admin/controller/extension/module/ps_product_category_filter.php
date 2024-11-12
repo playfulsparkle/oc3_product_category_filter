@@ -57,9 +57,9 @@ class ControllerExtensionModulePsProductCategoryFilter extends Controller
         $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
 
         if (isset($this->request->post['module_ps_product_category_filter_status'])) {
-            $data['module_ps_product_category_filter_status'] = $this->request->post['module_ps_product_category_filter_status'];
+            $data['module_ps_product_category_filter_status'] = (bool) $this->request->post['module_ps_product_category_filter_status'];
         } else {
-            $data['module_ps_product_category_filter_status'] = $this->config->get('module_ps_product_category_filter_status');
+            $data['module_ps_product_category_filter_status'] = (bool) $this->config->get('module_ps_product_category_filter_status');
         }
 
         $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
