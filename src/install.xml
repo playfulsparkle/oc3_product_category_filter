@@ -12,78 +12,83 @@ code package and also available on the project page: https://github.com/playfuls
     <link>https://github.com/playfulsparkle/oc3_product_category_filter.git</link>
     <file path="admin/model/catalog/product.php">
         <operation>
-            <search position="before"><![CDATA[if (isset($data['image'])) {]]></search>
-            <add><![CDATA[if ($this->config->get('module_ps_product_category_filter_status') && isset($data['product_category'], $data['product_filter'])) {
-            $filters = array();
+            <search><![CDATA[if (isset($data['image'])) {]]></search>
+            <add position="before"><![CDATA[
+                if ($this->config->get('module_ps_product_category_filter_status') && isset($data['product_category'], $data['product_filter'])) {
+                    $filters = array();
 
-            foreach ($data['product_category'] as $category_id) {
-                foreach ($data['product_filter'] as $filter_id) {
-                    $filters[] = "(" . (int)$category_id . ", " . (int)$filter_id . ")";
+                    foreach ($data['product_category'] as $category_id) {
+                        foreach ($data['product_filter'] as $filter_id) {
+                            $filters[] = "(" . (int)$category_id . ", " . (int)$filter_id . ")";
+                        }
+                    }
+
+                    if ($filters) {
+                        $query = "INSERT IGNORE INTO `" . DB_PREFIX . "category_filter` (`category_id`, `filter_id`) VALUES " . implode(',', $filters);
+                        $this->db->query($query);
+                    }
                 }
-            }
-
-            if ($filters) {
-                $query = "INSERT IGNORE INTO `" . DB_PREFIX . "category_filter` (`category_id`, `filter_id`) VALUES " . implode(',', $filters);
-                $this->db->query($query);
-            }
-        }
-
-		if (isset($data['image'])) {]]></add>
+            ]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
-            <search position="after"><![CDATA[$data['cancel']]]></search>
-            <add><![CDATA[
-            if ($this->config->get('module_ps_product_category_filter_status')) {
-                $this->load->language('extension/module/ps_product_category_filter', 'ps_product_category_filter');
+            <search><![CDATA[$data['cancel']]]></search>
+            <add position="before"><![CDATA[
+                if ($this->config->get('module_ps_product_category_filter_status')) {
+                    $this->load->language('extension/module/ps_product_category_filter', 'ps_product_category_filter');
 
-                $ps_language = $this->language->get('ps_product_category_filter');
+                    $ps_language = $this->language->get('ps_product_category_filter');
 
-                $data['button_remove_filter'] = $ps_language->get('button_remove_filter');
+                    $data['button_remove_filter'] = $ps_language->get('button_remove_filter');
 
 
-                $url = '';
+                    $url = '';
 
-                if (isset($this->request->get['sort'])) {
-                    $url .= '&sort=' . $this->request->get['sort'];
+                    if (isset($this->request->get['sort'])) {
+                        $url .= '&sort=' . $this->request->get['sort'];
+                    }
+
+                    if (isset($this->request->get['order'])) {
+                        $url .= '&order=' . $this->request->get['order'];
+                    }
+
+                    if (isset($this->request->get['page'])) {
+                        $url .= '&page=' . $this->request->get['page'];
+                    }
+
+                    if (isset($this->request->get['page'])) {
+                        $url .= '&category_id=' . $this->request->get['category_id'];
+                    }
+
+                    $data['remove_filter'] = $this->url->link('extension/module/ps_product_category_filter/removeunused', 'user_token=' . $this->session->data['user_token'] . $url, true);
+                } else {
+                    $data['remove_filter'] = '';
                 }
-
-                if (isset($this->request->get['order'])) {
-                    $url .= '&order=' . $this->request->get['order'];
-                }
-
-                if (isset($this->request->get['page'])) {
-                    $url .= '&page=' . $this->request->get['page'];
-                }
-
-                if (isset($this->request->get['page'])) {
-                    $url .= '&category_id=' . $this->request->get['category_id'];
-                }
-
-                $data['remove_filter'] = $this->url->link('extension/module/ps_product_category_filter/removeunused', 'user_token=' . $this->session->data['user_token'] . $url, true);
-            } else {
-                $data['remove_filter'] = '';
-            }
-
-            $data['cancel']
             ]]></add>
         </operation>
     </file>
     <file path="admin/view/template/catalog/category_form.twig">
         <operation>
-            <search position="before"><![CDATA[<input type="text" name="filter"]]></search>
-            <add><![CDATA[{% if remove_filter %}<div class="input-group">{% endif %}<input type="text" name="filter"]]></add>
+            <search><![CDATA[<input type="text" name="filter"]]></search>
+            <add position="before"><![CDATA[
+            {% if remove_filter %}
+                <div class="input-group">
+            {% endif %}
+            ]]></add>
         </operation>
     </file>
     <file path="admin/view/template/catalog/category_form.twig">
         <operation>
-            <search position="after"><![CDATA[id="input-filter" class="form-control" />]]></search>
-            <add><![CDATA[id="input-filter" class="form-control" />
-            {% if remove_filter %}<span class="input-group-btn">
-                <a href="{{ remove_filter }}" form="form-category" data-toggle="tooltip" title="{{ button_remove_filter }}" class="btn btn-primary"><i class="fa fa-trash-o"></i> {{ button_remove_filter }}</a>
-            </span>
-            </div>{% endif %}]]></add>
+            <search><![CDATA[id="input-filter" class="form-control" />]]></search>
+            <add position="after"><![CDATA[
+            {% if remove_filter %}
+                    <span class="input-group-btn">
+                        <a href="{{ remove_filter }}" form="form-category" data-toggle="tooltip" title="{{ button_remove_filter }}" class="btn btn-primary"><i class="fa fa-trash-o"></i> {{ button_remove_filter }}</a>
+                    </span>
+                </div>
+            {% endif %}
+            ]]></add>
         </operation>
     </file>
 </modification>
