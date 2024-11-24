@@ -4,7 +4,7 @@ $_['heading_title']            = 'Playful Sparkle - Termék szűrő kategóriáh
 $_['heading_getting_started']  = 'Kezdő lépések';
 $_['heading_setup']            = 'Termék szűrő kategóriához beállítása';
 $_['heading_troubleshot']      = 'Gyakori hibakeresési lépések';
-$_['heading_contact']          = 'Kapcsolatfelvétel a támogatással';
+$_['heading_contact']          = 'Terméktámogatás';
 
 // Text
 $_['text_extension']           = 'Kiegészítők';
