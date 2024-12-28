@@ -57,7 +57,7 @@ code package and also available on the project page: https://github.com/playfuls
                         $url .= '&page=' . $this->request->get['page'];
                     }
 
-                    if (isset($this->request->get['page'])) {
+                    if (isset($this->request->get['category_id'])) {
                         $url .= '&category_id=' . $this->request->get['category_id'];
                     }
 

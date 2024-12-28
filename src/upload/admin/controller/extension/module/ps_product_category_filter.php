@@ -101,7 +101,13 @@ class ControllerExtensionModulePsProductCategoryFilter extends Controller
 
         $this->load->model('extension/module/ps_product_category_filter');
 
-        $this->model_extension_module_ps_product_category_filter->removeUnusedFilters($this->request->get['category_id']);
+        if (isset($this->request->get['category_id'])) {
+            $category_id = (int) $this->request->get['category_id'];
+        } else {
+            $category_id = 0;
+        }
+
+        $this->model_extension_module_ps_product_category_filter->removeUnusedFilters($category_id);
 
         $this->session->data['success'] = $this->language->get('text_filter_success');
 
