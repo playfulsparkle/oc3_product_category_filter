@@ -83,6 +83,14 @@ class ControllerExtensionModulePsProductCategoryFilter extends Controller
 
     public function install()
     {
+        $this->load->model('setting/setting');
+
+        $data = array(
+            'module_ps_product_category_filter_status' => 0,
+        );
+
+        $this->model_setting_setting->editSetting('module_ps_product_category_filter', $data);
+
         $this->load->model('extension/module/ps_product_category_filter');
 
         $this->model_extension_module_ps_product_category_filter->install();
