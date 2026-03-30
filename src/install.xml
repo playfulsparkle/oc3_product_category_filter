@@ -2,14 +2,14 @@
 <!--
 This file is part of "Playful Sparkle - Product to Category filter" project and subject to the terms
 and conditions defined in file "LICENSE", which is part of this source
-code package and also available on the project page: https://github.com/playfulsparkle/oc3_product_category_filter.git
+code package and also available on the project page: https://github.com/playfulsparkle/oc3_product_category_filter
 -->
 <modification>
     <name>Playful Sparkle - Product to Category filter</name>
     <code>ps_product_category_filter</code>
     <version>1.0.2</version>
     <author>Playful Sparkle</author>
-    <link>https://github.com/playfulsparkle/oc3_product_category_filter.git</link>
+    <link>https://github.com/playfulsparkle/oc3_product_category_filter</link>
     <file path="admin/model/catalog/product.php">
         <operation>
             <search><![CDATA[if (isset($data['image'])) {]]></search>
